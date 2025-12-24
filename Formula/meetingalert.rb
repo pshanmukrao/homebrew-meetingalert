@@ -10,14 +10,19 @@ class Meetingalert < Formula
 
   def install
     # The ZIP contains MeetingAlert.app at the root
-    # Homebrew extracts to buildpath, so we need to reference it correctly
-    app = buildpath/"MeetingAlert.app"
-    
-    # Verify the app exists
-    raise "MeetingAlert.app not found in #{buildpath}" unless app.exist?
+    # Homebrew extracts ZIPs - check if buildpath itself is the app or contains it
+    app = if (buildpath/"MeetingAlert.app").directory?
+            buildpath/"MeetingAlert.app"
+          elsif buildpath.basename.to_s == "MeetingAlert.app" && buildpath.directory?
+            buildpath
+          else
+            # Try to find it
+            found = buildpath.find { |p| p.basename.to_s == "MeetingAlert.app" && p.directory? }
+            found || raise("MeetingAlert.app not found in #{buildpath}")
+          end
     
     # Copy the app to the prefix (Cellar location)
-    prefix.install app
+    prefix.install app => "MeetingAlert.app"
     
     # Create Applications symlink for easy access
     app_dir = "#{HOMEBREW_PREFIX}/Applications"
