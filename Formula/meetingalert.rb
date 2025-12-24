@@ -21,10 +21,13 @@ class Meetingalert < Formula
 
   def caveats
     <<~EOS
-      MeetingAlert has been installed to #{opt_prefix}/MeetingAlert.app
+      MeetingAlert has been installed!
+      
+      A symlink has been created in Applications for easy access.
+      You can also find it at: #{opt_prefix}/MeetingAlert.app
       
       To start using it:
-      1. Open #{opt_prefix}/MeetingAlert.app
+      1. Open MeetingAlert from Applications, or run: open #{opt_prefix}/MeetingAlert.app
       2. Grant calendar permissions when prompted
       3. Look for the app icon in your menu bar
       
