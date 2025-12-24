@@ -11,7 +11,8 @@ class Meetingalert < Formula
   def install
     # The ZIP contains MeetingAlert.app at the root
     # Copy the app to the prefix (Cellar location)
-    prefix.install buildpath/"MeetingAlert.app"
+    # buildpath is the extraction directory, so MeetingAlert.app is directly in it
+    prefix.install "MeetingAlert.app"
     
     # Create Applications symlink for easy access
     app_dir = "#{HOMEBREW_PREFIX}/Applications"
