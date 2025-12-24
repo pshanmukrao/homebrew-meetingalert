@@ -9,22 +9,18 @@ class Meetingalert < Formula
   depends_on macos: :ventura # macOS 13.0+
 
   def install
-    # Homebrew extracts ZIPs - check what's actually in buildpath
-    # The ZIP contains MeetingAlert.app/, so after extraction:
-    # - If buildpath is the temp dir: buildpath/MeetingAlert.app exists
-    # - If Homebrew extracts differently: buildpath might be the app itself
+    # Homebrew extracts ZIPs - the ZIP contains MeetingAlert.app/ at root
+    # After extraction, buildpath should contain MeetingAlert.app
+    app_source = buildpath/"MeetingAlert.app"
     
-    app_source = if (buildpath/"MeetingAlert.app").directory?
-                   buildpath/"MeetingAlert.app"
-                 elsif buildpath.directory? && (buildpath/"Contents").directory?
-                   # buildpath IS the app bundle
-                   buildpath
-                 else
-                   raise "Could not find MeetingAlert.app in #{buildpath}. Contents: #{buildpath.children.map(&:basename).join(', ')}"
-                 end
+    unless app_source.directory?
+      # If not found, list what's actually there for debugging
+      raise "MeetingAlert.app not found in #{buildpath}. Found: #{buildpath.children.map(&:basename).join(', ')}"
+    end
     
-    # Copy to prefix
-    prefix.install app_source => "MeetingAlert.app"
+    # Use cp_r to copy the app bundle
+    prefix.mkpath
+    cp_r app_source, prefix/"MeetingAlert.app"
   end
 
   def caveats
