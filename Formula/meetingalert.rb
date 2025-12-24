@@ -23,23 +23,19 @@ class Meetingalert < Formula
     
     # Copy the app to the prefix (Cellar location)
     prefix.install app => "MeetingAlert.app"
-    
-    # Create Applications symlink for easy access (use standard /Applications)
-    app_dir = Pathname.new("/Applications")
-    ln_sf "#{prefix}/MeetingAlert.app", "#{app_dir}/MeetingAlert.app"
   end
 
   def caveats
     <<~EOS
-      MeetingAlert has been installed!
-      
-      A symlink has been created in Applications for easy access.
-      You can also find it at: #{opt_prefix}/MeetingAlert.app
+      MeetingAlert has been installed to #{opt_prefix}/MeetingAlert.app
       
       To start using it:
-      1. Open MeetingAlert from Applications, or run: open #{opt_prefix}/MeetingAlert.app
+      1. Run: open #{opt_prefix}/MeetingAlert.app
       2. Grant calendar permissions when prompted
       3. Look for the app icon in your menu bar
+      
+      Optional: To add to Applications folder:
+        ln -sf #{opt_prefix}/MeetingAlert.app /Applications/MeetingAlert.app
       
       The app will appear in your menu bar showing upcoming meetings.
       Click it to see a list of events and auto-open Zoom links.
