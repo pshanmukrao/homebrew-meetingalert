@@ -24,9 +24,8 @@ class Meetingalert < Formula
     # Copy the app to the prefix (Cellar location)
     prefix.install app => "MeetingAlert.app"
     
-    # Create Applications symlink for easy access
-    app_dir = Pathname.new("#{HOMEBREW_PREFIX}/Applications")
-    app_dir.mkpath
+    # Create Applications symlink for easy access (use standard /Applications)
+    app_dir = Pathname.new("/Applications")
     ln_sf "#{prefix}/MeetingAlert.app", "#{app_dir}/MeetingAlert.app"
   end
 
