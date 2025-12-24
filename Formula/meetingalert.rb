@@ -9,11 +9,14 @@ class Meetingalert < Formula
   depends_on macos: :ventura # macOS 13.0+
 
   def install
-    # Copy the app to Applications folder
-    prefix.install "MeetingAlert.app"
+    # The ZIP contains MeetingAlert.app at the root
+    # Copy the app to the prefix (Cellar location)
+    prefix.install buildpath/"MeetingAlert.app"
     
-    # Create a symlink or wrapper script if needed
-    bin.install_symlink prefix/"MeetingAlert.app/Contents/MacOS/MeetingAlert"
+    # Create Applications symlink for easy access
+    app_dir = "#{HOMEBREW_PREFIX}/Applications"
+    app_dir.mkpath
+    ln_sf "#{prefix}/MeetingAlert.app", "#{app_dir}/MeetingAlert.app"
   end
 
   def caveats
