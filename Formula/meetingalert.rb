@@ -9,17 +9,10 @@ class Meetingalert < Formula
   depends_on macos: :ventura # macOS 13.0+
 
   def install
-    # The ZIP contains MeetingAlert.app at the root
-    # Homebrew extracts to buildpath - the app should be directly in buildpath
-    app_path = buildpath/"MeetingAlert.app"
-    
-    # Debug: list what's actually in buildpath
-    unless app_path.exist?
-      raise "MeetingAlert.app not found. Contents of #{buildpath}: #{buildpath.children.map(&:to_s).join(', ')}"
-    end
-    
-    # Copy the app to the prefix (Cellar location)
-    prefix.install app_path
+    # Homebrew extracts the ZIP so that buildpath IS the MeetingAlert.app directory
+    # (buildpath contains Contents/ and other app bundle files)
+    # So we just install buildpath itself as MeetingAlert.app
+    prefix.install buildpath => "MeetingAlert.app"
   end
 
   def caveats
